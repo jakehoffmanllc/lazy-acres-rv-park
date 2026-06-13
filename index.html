@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lazy Acres RV Park — East Tennessee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pine:#1C3B29;
+    --pine-deep:#122619;
+    --fern:#3E6B4A;
+    --sage:#8AA38C;
+    --canvas:#F2EADA;
+    --canvas-deep:#E7DBC4;
+    --amber:#E0883A;
+    --amber-deep:#C26A1F;
+    --bark:#2A2117;
+    --paper:#EDE6D6;
+    --line:rgba(42,33,23,.14);
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--bark);
+    background:var(--canvas);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Bricolage Grotesque','Inter',sans-serif;line-height:1.02;letter-spacing:-.015em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--amber-deep);
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  a{color:inherit}
+  section{position:relative}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(28,59,41,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(237,230,214,.12);
+  }
+  nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;color:var(--paper);text-decoration:none}
+  .brand svg{width:26px;height:26px;flex:none}
+  .brand b{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.12rem;letter-spacing:-.02em}
+  .brand span{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);display:block;margin-top:-3px}
+  .navlinks{display:flex;gap:28px;align-items:center}
+  .navlinks a{color:var(--paper);text-decoration:none;font-size:.9rem;font-weight:500;opacity:.82;transition:opacity .2s}
+  .navlinks a:hover{opacity:1}
+  .navcta{
+    background:var(--amber);color:var(--pine-deep);font-weight:600;
+    padding:9px 18px;border-radius:999px;font-size:.88rem;text-decoration:none;
+    transition:transform .15s,background .2s;
+  }
+  .navcta:hover{background:#ec9b52;transform:translateY(-1px)}
+  .menubtn{display:none;background:none;border:0;color:var(--paper);cursor:pointer}
+
+  /* ---------- HERO ---------- */
+  .hero{background:var(--pine);color:var(--paper);overflow:hidden;position:relative}
+  .hero-inner{max-width:var(--maxw);margin:0 auto;padding:96px 24px 0;position:relative;z-index:3}
+  .hero h1{font-size:clamp(2.8rem,7vw,5.4rem);font-weight:800;max-width:14ch;margin:18px 0 0}
+  .hero h1 em{font-style:normal;color:var(--amber)}
+  .hero p.lede{font-size:clamp(1.05rem,2vw,1.3rem);max-width:46ch;margin:22px 0 0;color:rgba(237,230,214,.82)}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin:34px 0 0}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:999px;font-weight:600;text-decoration:none;font-size:.98rem;cursor:pointer;border:0;transition:transform .15s,background .2s,box-shadow .2s}
+  .btn-amber{background:var(--amber);color:var(--pine-deep);box-shadow:0 6px 22px -8px rgba(224,136,58,.7)}
+  .btn-amber:hover{background:#ec9b52;transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--paper);border:1.5px solid rgba(237,230,214,.34)}
+  .btn-ghost:hover{border-color:var(--paper);transform:translateY(-2px)}
+  .coords{display:flex;gap:22px;flex-wrap:wrap;margin-top:54px;padding-bottom:8px}
+  .coords div{font-size:.72rem;letter-spacing:.14em}
+  .coords .k{color:var(--sage);text-transform:uppercase;display:block;font-size:.62rem;margin-bottom:3px}
+  .coords .v{color:var(--paper);font-weight:500}
+
+  /* sun + ridges */
+  .sun{position:absolute;right:9%;top:120px;width:200px;height:200px;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%,#F2B66A 0%,#E0883A 55%,rgba(224,136,58,0) 72%);
+    filter:blur(2px);z-index:1;animation:glow 7s ease-in-out infinite}
+  @keyframes glow{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+  .ridges{display:block;width:100%;height:auto;margin-top:-40px;position:relative;z-index:2}
+
+  /* ---------- SECTION SHELL ---------- */
+  .pad{padding:88px 0}
+  .sec-head{max-width:60ch}
+  .sec-head h2{font-size:clamp(2rem,4.4vw,3rem);font-weight:800;margin:12px 0 0}
+  .sec-head p{margin:16px 0 0;font-size:1.08rem;color:#574a39;max-width:52ch}
+
+  /* contour texture */
+  .contour{position:absolute;inset:0;opacity:.4;pointer-events:none;
+    background-image:repeating-radial-gradient(circle at 80% -10%,transparent 0 38px,rgba(62,107,74,.07) 38px 39px)}
+
+  /* ---------- PARK / ABOUT ---------- */
+  .park{background:var(--canvas)}
+  .feat{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px}
+  .fcard{background:var(--canvas-deep);border:1px solid var(--line);border-radius:16px;padding:24px}
+  .fcard .ic{width:30px;height:30px;color:var(--fern);margin-bottom:14px}
+  .fcard h3{font-size:1.08rem;font-weight:600;font-family:'Inter'}
+  .fcard p{font-size:.92rem;color:#5a4d3c;margin-top:6px}
+
+  /* ---------- GALLERY ---------- */
+  .gallery{background:var(--pine-deep);color:var(--paper)}
+  .gallery .sec-head h2{color:var(--paper)}
+  .gallery .sec-head p{color:rgba(237,230,214,.72)}
+  .gallery .eyebrow{color:var(--amber)}
+  .grid-photos{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:210px;gap:14px;margin-top:46px}
+  .ph{border-radius:14px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:16px;
+    border:1px solid rgba(237,230,214,.1);background:#1a3322}
+  .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .5s ease}
+  .ph:hover img{transform:scale(1.05)}
+  .ph::after{content:"";position:absolute;inset:0;z-index:1;
+    background:linear-gradient(to top,rgba(15,30,20,.82),rgba(15,30,20,.05) 52%,transparent)}
+  .ph span{position:relative;z-index:2;font-size:.78rem;font-family:'JetBrains Mono';letter-spacing:.05em;color:rgba(237,230,214,.95)}
+  .ph.tall{grid-row:span 2}
+  .ph.wide{grid-column:span 2}
+
+  /* ---------- RATES ---------- */
+  .rates{background:var(--canvas)}
+  .rate-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}
+  .rcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px 26px;position:relative;transition:transform .2s,box-shadow .2s}
+  .rcard:hover{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(28,59,41,.4)}
+  .rcard.best{border:1.5px solid var(--amber);box-shadow:0 14px 36px -20px rgba(224,136,58,.5)}
+  .rcard .tag{position:absolute;top:-11px;left:26px;background:var(--amber);color:var(--pine-deep);font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:999px}
+  .rcard h3{font-size:1.05rem;font-family:'Inter';font-weight:600;color:var(--fern)}
+  .price{font-family:'Bricolage Grotesque';font-weight:800;font-size:2.6rem;margin:8px 0 2px;color:var(--bark)}
+  .price small{font-size:.9rem;font-weight:500;color:#8a7c66;font-family:'Inter'}
+  .rcard ul{list-style:none;margin-top:18px;display:grid;gap:9px}
+  .rcard li{font-size:.9rem;display:flex;gap:9px;align-items:flex-start;color:#574a39}
+  .rcard li svg{width:16px;height:16px;color:var(--fern);flex:none;margin-top:3px}
+  .rate-fine{margin-top:26px;font-size:.86rem;color:#6a5c48;display:flex;gap:24px;flex-wrap:wrap}
+  .rate-fine b{color:var(--bark)}
+  .demo-tag{display:inline-block;background:var(--canvas-deep);border:1px dashed var(--amber-deep);color:var(--amber-deep);font-size:.74rem;font-family:'JetBrains Mono';padding:5px 12px;border-radius:8px;margin-top:14px}
+
+  /* ---------- BOOKING ---------- */
+  .book{background:var(--pine);color:var(--paper)}
+  .book .sec-head h2{color:var(--paper)}
+  .book .sec-head p{color:rgba(237,230,214,.78)}
+  .book .eyebrow{color:var(--amber)}
+  .book-card{background:rgba(237,230,214,.06);border:1px solid rgba(237,230,214,.16);border-radius:20px;padding:30px;margin-top:40px;display:grid;grid-template-columns:1.3fr .9fr;gap:30px}
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);font-family:'JetBrains Mono'}
+  .field input,.field select{
+    background:rgba(18,38,25,.6);border:1px solid rgba(237,230,214,.2);border-radius:10px;
+    padding:12px 13px;color:var(--paper);font-family:'Inter';font-size:.95rem;width:100%}
+  .field input:focus,.field select:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:transparent}
+  .field input::-webkit-calendar-picker-indicator{filter:invert(.8)}
+  .summary{background:var(--pine-deep);border-radius:16px;padding:24px;display:flex;flex-direction:column}
+  .summary h3{font-size:1rem;color:var(--paper);font-family:'Inter';font-weight:600;margin-bottom:14px}
+  .sumrow{display:flex;justify-content:space-between;font-size:.92rem;padding:8px 0;border-bottom:1px solid rgba(237,230,214,.1);color:rgba(237,230,214,.85)}
+  .sumrow.total{border-bottom:0;margin-top:auto;padding-top:16px;font-size:1.15rem;font-weight:600;color:var(--paper)}
+  .sumrow.total .mono{color:var(--amber)}
+  .book .btn-amber{margin-top:18px;width:100%;justify-content:center}
+  .book-note{font-size:.78rem;color:rgba(237,230,214,.55);margin-top:12px;text-align:center}
+  .confirm{display:none;background:rgba(224,136,58,.12);border:1px solid var(--amber);border-radius:14px;padding:20px;margin-top:18px;grid-column:1/-1}
+  .confirm.show{display:block}
+  .confirm b{color:var(--amber)}
+  .err{color:#ffb4a0;font-size:.82rem;margin-top:8px;grid-column:1/-1;display:none}
+  .err.show{display:block}
+
+  /* ---------- RULES ---------- */
+  .rules{background:var(--canvas-deep)}
+  .rule-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 38px;margin-top:42px}
+  .rule{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .rule .n{font-family:'JetBrains Mono';font-size:.8rem;color:var(--amber-deep);flex:none;padding-top:3px}
+  .rule p{font-size:.96rem;color:#4d4234}
+  .rule b{color:var(--bark)}
+
+  /* ---------- CONTACT ---------- */
+  .contact{background:var(--canvas)}
+  .ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:44px}
+  .ct-info .row{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line)}
+  .ct-info .row svg{width:22px;height:22px;color:var(--fern);flex:none;margin-top:2px}
+  .ct-info .row a{font-size:1.12rem;font-weight:600;text-decoration:none;color:var(--bark)}
+  .ct-info .row small{display:block;color:#7a6c57;font-weight:400;font-size:.84rem}
+  .hours{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .hours div{display:flex;justify-content:space-between;padding:10px 18px;font-size:.9rem;border-bottom:1px solid var(--line)}
+  .hours div:last-child{border-bottom:0}
+  .hours .closed{color:#a3937c}
+  .hours .day{font-family:'JetBrains Mono';font-size:.82rem;color:#6a5c48}
+  .ct-form .field label{color:#6a5c48}
+  .ct-form .field input,.ct-form .field textarea{
+    background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 13px;
+    font-family:'Inter';font-size:.95rem;color:var(--bark);width:100%;resize:vertical}
+  .ct-form .field input:focus,.ct-form .field textarea:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:transparent}
+  .ct-form{display:grid;gap:16px}
+  .ct-form .btn-amber{justify-content:center}
+  .ct-confirm{display:none;background:rgba(62,107,74,.1);border:1px solid var(--fern);border-radius:12px;padding:16px;font-size:.92rem;color:var(--fern)}
+  .ct-confirm.show{display:block}
+
+  /* ---------- MONTHLY STAY ---------- */
+  .monthly{background:var(--pine-deep);color:var(--paper)}
+  .monthly .sec-head h2{color:var(--paper)}
+  .monthly .sec-head p{color:rgba(237,230,214,.78)}
+  .monthly .eyebrow{color:var(--amber)}
+  .monthly .gi-form{max-width:880px;margin:40px auto 0}
+
+  /* ---------- GUEST INFO ---------- */
+  .guest{background:var(--pine);color:var(--paper)}
+  .guest .sec-head h2{color:var(--paper)}
+  .guest .sec-head p{color:rgba(237,230,214,.78)}
+  .guest .eyebrow{color:var(--amber)}
+  .gi-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:36px;border-bottom:1px solid rgba(237,230,214,.16)}
+  .gi-tab{background:none;border:0;color:rgba(237,230,214,.6);font-family:'JetBrains Mono';font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;padding:13px 16px;cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+  .gi-tab:hover{color:var(--paper)}
+  .gi-tab.active{color:var(--amber);border-bottom-color:var(--amber)}
+  .gi-tab:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .gi-panel{display:none;margin-top:34px}
+  .gi-panel.active{display:block}
+  .gi-intro{font-size:.96rem;color:rgba(237,230,214,.8);max-width:760px;margin-bottom:30px}
+  .gi-cols{columns:2;column-gap:48px}
+  .gi-group{break-inside:avoid;margin-bottom:30px}
+  .gi-group h3{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.12rem;color:var(--paper);margin-bottom:12px;letter-spacing:-.01em}
+  .gi-list{list-style:none;display:grid;gap:9px}
+  .gi-list li{position:relative;padding:8px 0 8px 20px;font-size:.92rem;color:rgba(237,230,214,.82);border-bottom:1px solid rgba(237,230,214,.09)}
+  .gi-list li::before{content:"";position:absolute;left:0;top:15px;width:7px;height:7px;background:var(--amber);border-radius:2px}
+  .gi-list li b{color:var(--paper);font-weight:600}
+  .gi-notice{background:rgba(224,136,58,.1);border:1px solid var(--amber);border-radius:16px;padding:24px 26px;margin-bottom:30px}
+  .gi-notice .tag{display:inline-block;background:var(--amber);color:var(--pine-deep);font-family:'JetBrains Mono';font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 11px;border-radius:6px;font-weight:600;margin-bottom:12px}
+  .gi-notice h3{color:var(--paper);font-family:'Bricolage Grotesque';font-weight:800;font-size:1.25rem;margin-bottom:10px}
+  .gi-notice p{font-size:.94rem;color:rgba(237,230,214,.86);margin-bottom:9px}
+  .gi-notice p:last-child{margin-bottom:0}
+  .gi-notice .sig{font-family:'JetBrains Mono';font-size:.78rem;color:var(--amber);margin-top:14px}
+  .gi-form{margin-top:6px}
+  .gi-form .legend{font-family:'JetBrains Mono';font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin:26px 0 14px;padding-bottom:8px;border-bottom:1px solid rgba(237,230,214,.14)}
+  .gi-form .legend:first-child{margin-top:0}
+  .gi-form .fields{margin-bottom:4px}
+  .gi-form textarea{
+    background:rgba(18,38,25,.6);border:1px solid rgba(237,230,214,.2);border-radius:10px;
+    padding:12px 13px;color:var(--paper);font-family:'Inter';font-size:.95rem;width:100%;resize:vertical}
+  .gi-form textarea:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:transparent}
+  .gi-form .btn-amber{margin-top:24px;justify-content:center}
+  .gi-form .reg-note{font-size:.8rem;color:rgba(237,230,214,.6);margin-top:14px}
+  .gi-confirm{display:none;background:rgba(62,107,74,.16);border:1px solid var(--fern);border-radius:14px;padding:20px;margin-top:18px;font-size:.94rem;color:#bfe0c4}
+  .gi-confirm.show{display:block}
+  .gi-confirm b{color:#fff}
+  .gi-err{display:none;color:#ffb4a0;font-size:.84rem;margin-top:12px}
+  .gi-err.show{display:block}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--pine-deep);color:var(--paper);padding:54px 0 30px}
+  .foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px}
+  .foot-top .brand b{color:var(--paper)}
+  .foot-links{display:flex;gap:26px;flex-wrap:wrap}
+  .foot-links a{color:rgba(237,230,214,.7);text-decoration:none;font-size:.9rem}
+  .foot-links a:hover{color:var(--paper)}
+  .foot-bot{margin-top:36px;padding-top:22px;border-top:1px solid rgba(237,230,214,.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.8rem;color:rgba(237,230,214,.5)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:860px){
+    .navlinks{display:none}
+    .menubtn{display:block}
+    .feat{grid-template-columns:1fr 1fr}
+    .rate-grid{grid-template-columns:1fr}
+    .grid-photos{grid-template-columns:1fr 1fr;grid-auto-rows:160px}
+    .book-card{grid-template-columns:1fr}
+    .rule-grid{grid-template-columns:1fr}
+    .ct-grid{grid-template-columns:1fr}
+    .gi-cols{columns:1}
+    .sun{width:140px;height:140px;right:4%}
+  }
+  @media(max-width:520px){
+    .feat{grid-template-columns:1fr}
+    .fields{grid-template-columns:1fr}
+    .coords{gap:16px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .sun{animation:none}
+    .reveal{transition:none;opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <nav class="wrap">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#E0883A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 21h18L12 2Z"/><path d="m8 21 4-7 4 7"/></svg>
+      <div><b>Lazy Acres</b><span>RV Park</span></div>
+    </a>
+    <div class="navlinks">
+      <a href="#park">The Park</a>
+      <a href="#rates">Rates</a>
+      <a href="#monthly">Monthly</a>
+      <a href="#rules">Rules</a>
+      <a href="#guest">Guest Info</a>
+      <a href="#contact">Contact</a>
+      <a class="navcta" href="#book">Check availability</a>
+    </div>
+    <button class="menubtn" onclick="document.querySelector('#book').scrollIntoView()" aria-label="Book">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="sun" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="eyebrow">East Tennessee &middot; Wooded RV sites</p>
+    <h1>Park the rig. <em>Stay a while.</em></h1>
+    <p class="lede">A quiet, family-run RV park tucked in the foothills — full hookups, shade, and neighbors who wave. Nightly, weekly, or settle in month to month.</p>
+    <div class="hero-cta">
+      <a class="btn btn-amber" href="#book">Check availability</a>
+      <a class="btn btn-ghost" href="tel:8653898543">Call 865 389-8543</a>
+    </div>
+    <div class="coords">
+      <div><span class="k">Sites</span><span class="v mono">Full hookups</span></div>
+      <div><span class="k">Stays</span><span class="v mono">Day / Week / Month</span></div>
+      <div><span class="k">Pets</span><span class="v mono">Welcome</span></div>
+      <div><span class="k">Wi-Fi</span><span class="v mono">Free</span></div>
+    </div>
+  </div>
+  <svg class="ridges" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 150 L240 70 L420 130 L660 50 L900 140 L1140 80 L1440 150 V220 H0 Z" fill="#2c5237"/>
+    <path d="M0 185 L260 120 L520 175 L760 110 L1020 180 L1280 130 L1440 185 V220 H0 Z" fill="#234029"/>
+    <path d="M0 210 L300 165 L600 205 L900 160 L1200 200 L1440 170 V220 H0 Z" fill="#122619"/>
+  </svg>
+</section>
+
+<!-- PARK -->
+<section class="park pad" id="park">
+  <div class="contour" aria-hidden="true"></div>
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <p class="eyebrow">The Park</p>
+      <h2>Small, tidy, and easy to call home.</h2>
+      <p>We're a privately owned park built around long, level sites and quiet evenings. Pull through for a night or keep your spot for the season — either way you get the same clean grounds and friendly host.</p>
+    </div>
+    <div class="feat">
+      <div class="fcard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12h18M12 3v18"/><circle cx="12" cy="12" r="9"/></svg>
+        <h3>Full hookups</h3><p>Water, electric, and sewer at every site, with room for slide-outs.</p>
+      </div>
+      <div class="fcard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 4 9v12h16V9l-8-6Z"/><path d="M9 21v-6h6v6"/></svg>
+        <h3>Month to month</h3><p>Daily, weekly, or monthly — settle in for as long as the road allows.</p>
+      </div>
+      <div class="fcard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 5.2C8 3 4 3.5 4 7c0 3 6 8 6 8s6-5 6-8c0-3.5-4-4-6-1.8Z"/></svg>
+        <h3>Pet friendly</h3><p>Leashed dogs are welcome. Bring the whole family, four legs included.</p>
+      </div>
+      <div class="fcard">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 13a9 9 0 0 1 14 0"/><path d="M8.5 16.5a4.5 4.5 0 0 1 7 0"/><circle cx="12" cy="20" r="1"/></svg>
+        <h3>Free Wi-Fi</h3><p>Complimentary park-wide Wi-Fi to keep you connected under the trees.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery pad">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <p class="eyebrow">Around the grounds</p>
+      <h2>A look at the park.</h2>
+      <p>Shaded sites, open sky, and the kind of quiet you drove all this way for.</p>
+    </div>
+    <div class="grid-photos">
+      <div class="ph wide"><img src="sunrise-foothills.jpg" alt="Sunrise over the East Tennessee foothills at Lazy Acres" loading="lazy"><span>Sunrise over the foothills</span></div>
+      <div class="ph"><img src="room-to-roam.jpg" alt="Open pasture and mowed paths with rolling hills" loading="lazy"><span>Room to roam</span></div>
+      <div class="ph tall"><img src="aerial-winter.jpg" alt="Aerial view of the RV park loop roads in winter" loading="lazy"><span>Aerial over the park</span></div>
+      <div class="ph"><img src="sites-sunset.jpg" alt="Full-hookup RV sites under a pink sunset" loading="lazy"><span>Full-hookup sites at dusk</span></div>
+      <div class="ph"><img src="spring-grounds.jpg" alt="Green spring grounds with a grassy draw and fence lines" loading="lazy"><span>Spring on the grounds</span></div>
+      <div class="ph wide"><img src="misty-morning.jpg" alt="Misty morning with the sun rising over a lone tree" loading="lazy"><span>Misty morning</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- RATES -->
+<section class="rates pad" id="rates">
+  <div class="contour" aria-hidden="true"></div>
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <p class="eyebrow">Rates</p>
+      <h2>Simple pricing, no surprises.</h2>
+      <p>Pick the stay that fits your trip. Longer stays save the most.</p>
+    </div>
+    <div class="rate-grid">
+      <div class="rcard">
+        <h3>Nightly</h3>
+        <div class="price">$55<small>/ night</small></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg>Back-in $55 &middot; Pull-thru $65</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg>Full hookup &middot; up to 2 adults + 2 kids</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg>Electric &amp; tax included</li>
+        </ul>
+      </div>
+      <div class="rcard best">
+        <span class="tag">Most popular</span>
+        <h3>Weekly</h3>
+        <div class="price">$330<small>/ week</small></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg>Back-in $330 &middot; Pull-thru $390</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg>7th night free</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg>Electric &amp; tax included</li>
+        </ul>
+      </div>
+      <div class="rcard">
+        <h3>Monthly</h3>
+        <div class="price">$600<small>/ month +&nbsp;elec.</small></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg>Back-in $600 &middot; Pull-thru $700</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg>Electric metered: $0.14/kWh + 7% tax</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg>Call the office to reserve</li>
+        </ul>
+      </div>
+    </div>
+    <div class="rate-fine">
+      <span><b>Extra guests:</b> $5 / adult &middot; $3 / child per night</span>
+      <span><b>Check-out:</b> 11:00 AM</span>
+      <span><b>Quiet hours:</b> 10 PM – 7 AM</span>
+      <span><b>Monthly:</b> sales tax applies to the first two months</span>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="book pad" id="book">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <p class="eyebrow">Reserve</p>
+      <h2>Check availability.</h2>
+      <p>Tell us when you're rolling in. We'll confirm your site and follow up to finalize.</p>
+    </div>
+    <div class="book-card">
+      <div>
+        <div class="fields">
+          <div class="field"><label for="arrive">Arrival</label><input type="date" id="arrive" oninput="recalc()"></div>
+          <div class="field"><label for="depart">Departure</label><input type="date" id="depart" oninput="recalc()"></div>
+          <div class="field"><label for="rig">Rig type</label>
+            <select id="rig">
+              <option>Travel trailer</option><option>Fifth wheel</option>
+              <option>Class A motorhome</option><option>Class C motorhome</option>
+              <option>Van / Class B</option><option>Pop-up / other</option>
+            </select>
+          </div>
+          <div class="field"><label for="site">Site type</label>
+            <select id="site" oninput="recalc()">
+              <option value="55">Back-in — $55/night</option>
+              <option value="65">Pull-thru — $65/night</option>
+            </select>
+          </div>
+          <div class="field"><label for="guests">Guests</label>
+            <select id="guests" oninput="recalc()">
+              <option value="2">1–2 guests</option>
+              <option value="3">3 guests (+$5/night)</option>
+              <option value="4">4 guests (+$10/night)</option>
+            </select>
+          </div>
+          <div class="field full"><label for="bname">Name</label><input type="text" id="bname" placeholder="Your name"></div>
+          <div class="field"><label for="bemail">Email</label><input type="email" id="bemail" placeholder="you@email.com"></div>
+          <div class="field"><label for="bphone">Phone</label><input type="tel" id="bphone" placeholder="(865) 000-0000"></div>
+        </div>
+        <p class="err" id="bookerr"></p>
+      </div>
+      <div class="summary">
+        <h3>Your stay</h3>
+        <div class="sumrow"><span>Nights</span><span class="mono" id="snights">—</span></div>
+        <div class="sumrow"><span>Site (est. nightly)</span><span class="mono" id="srate">$55</span></div>
+        <div class="sumrow"><span>Extra guests</span><span class="mono" id="sguests">$0</span></div>
+        <div class="sumrow total"><span>Estimate</span><span class="mono" id="stotal">—</span></div>
+        <button class="btn btn-amber" onclick="submitBooking()">Request reservation</button>
+        <p class="book-note">Estimate only — no payment is taken here.</p>
+      </div>
+      <div class="confirm" id="bookconfirm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MONTHLY STAY REQUEST -->
+<section class="monthly pad" id="monthly">
+  <div class="contour" aria-hidden="true"></div>
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <p class="eyebrow">Month-to-month</p>
+      <h2>Monthly stay request.</h2>
+      <p>Thinking about settling in for a while? Send us your details and we'll be in touch about availability and the best monthly site for your rig. Monthly rates are $600 back-in / $700 pull-thru, plus metered electric.</p>
+    </div>
+    <form class="gi-form" onsubmit="submitMonthly(event)">
+      <div class="legend">Your details</div>
+      <div class="fields">
+        <div class="field full"><label for="rg-name">Full name</label><input type="text" id="rg-name" placeholder="First and last"></div>
+        <div class="field"><label for="rg-phone">Phone</label><input type="tel" id="rg-phone" placeholder="(865) 000-0000"></div>
+        <div class="field"><label for="rg-phone2">Alt. phone</label><input type="tel" id="rg-phone2" placeholder="Optional"></div>
+        <div class="field"><label for="rg-email">Email</label><input type="email" id="rg-email" placeholder="you@email.com"></div>
+        <div class="field"><label for="rg-zip">Home ZIP</label><input type="text" id="rg-zip" placeholder="00000"></div>
+        <div class="field"><label for="rg-ec">Emergency contact</label><input type="text" id="rg-ec" placeholder="Name"></div>
+        <div class="field"><label for="rg-ecphone">Emergency phone</label><input type="tel" id="rg-ecphone" placeholder="(000) 000-0000"></div>
+      </div>
+
+      <div class="legend">Your rig</div>
+      <div class="fields">
+        <div class="field"><label for="rg-rvtype">RV type</label>
+          <select id="rg-rvtype">
+            <option>Travel trailer</option><option>Fifth wheel</option>
+            <option>Class A motorhome</option><option>Class C motorhome</option>
+            <option>Van / Class B</option><option>Pop-up / other</option>
+          </select>
+        </div>
+        <div class="field"><label for="rg-site">Site preference</label>
+          <select id="rg-site">
+            <option>No preference</option><option>Back-in ($600/mo)</option><option>Pull-thru ($700/mo)</option>
+          </select>
+        </div>
+        <div class="field"><label for="rg-len">Length</label><input type="text" id="rg-len" placeholder="e.g. 32 ft"></div>
+        <div class="field"><label for="rg-year">Year</label><input type="text" id="rg-year" placeholder="e.g. 2021"></div>
+        <div class="field"><label for="rg-model">Make / model</label><input type="text" id="rg-model" placeholder="e.g. Jayco Jay Flight"></div>
+        <div class="field"><label for="rg-tag">License plate &amp; state</label><input type="text" id="rg-tag" placeholder="ABC-1234 · TN"></div>
+      </div>
+
+      <div class="legend">Party</div>
+      <div class="fields">
+        <div class="field"><label for="rg-adults">Adults</label><input type="number" id="rg-adults" min="0" placeholder="2"></div>
+        <div class="field"><label for="rg-kids">Children</label><input type="number" id="rg-kids" min="0" placeholder="0"></div>
+        <div class="field"><label for="rg-pets">Pets</label><input type="number" id="rg-pets" min="0" placeholder="0"></div>
+        <div class="field"><label for="rg-breed">Pet breed(s)</label><input type="text" id="rg-breed" placeholder="If any"></div>
+      </div>
+
+      <div class="legend">Vehicle 1</div>
+      <div class="fields">
+        <div class="field"><label for="rg-v1make">Make</label><input type="text" id="rg-v1make" placeholder="e.g. Ford"></div>
+        <div class="field"><label for="rg-v1model">Model</label><input type="text" id="rg-v1model" placeholder="e.g. F-150"></div>
+        <div class="field"><label for="rg-v1color">Color</label><input type="text" id="rg-v1color" placeholder="e.g. White"></div>
+        <div class="field"><label for="rg-v1plate">License plate &amp; state</label><input type="text" id="rg-v1plate" placeholder="ABC-1234 · TN"></div>
+      </div>
+
+      <div class="legend">Vehicle 2 <span style="text-transform:none;letter-spacing:0;color:rgba(237,230,214,.55)">— optional</span></div>
+      <div class="fields">
+        <div class="field"><label for="rg-v2make">Make</label><input type="text" id="rg-v2make" placeholder="e.g. Toyota"></div>
+        <div class="field"><label for="rg-v2model">Model</label><input type="text" id="rg-v2model" placeholder="e.g. Camry"></div>
+        <div class="field"><label for="rg-v2color">Color</label><input type="text" id="rg-v2color" placeholder="Color"></div>
+        <div class="field"><label for="rg-v2plate">License plate &amp; state</label><input type="text" id="rg-v2plate" placeholder="Optional"></div>
+      </div>
+
+      <div class="legend">When &amp; how long</div>
+      <div class="fields">
+        <div class="field"><label for="rg-arrive">Desired move-in date</label><input type="date" id="rg-arrive"></div>
+        <div class="field"><label for="rg-length">Length of stay</label>
+          <select id="rg-length">
+            <option>Month-to-month</option><option>1–3 months</option>
+            <option>3–6 months</option><option>6+ months</option>
+          </select>
+        </div>
+        <div class="field full"><label for="rg-notes">Anything else we should know?</label><textarea id="rg-notes" rows="3" placeholder="Accessibility needs, service animal, preferred area of the park, questions..."></textarea></div>
+      </div>
+
+      <p class="gi-err" id="rg-err"></p>
+      <button class="btn btn-amber" type="submit">Submit monthly stay request</button>
+      <p class="reg-note">Demo form — in a live site this would email the office. It never collects or processes payment; the office arranges your monthly rate and deposit directly and securely.</p>
+      <div class="gi-confirm" id="rg-confirm"></div>
+    </form>
+  </div>
+</section>
+
+<!-- RULES -->
+<section class="rules pad" id="rules">
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <p class="eyebrow">Good neighbors</p>
+      <h2>A few house rules.</h2>
+      <p>Nothing surprising — just what keeps the park clean, quiet, and easy for everyone. The complete policies, site standards, and seasonal notices live in <a href="#guest" style="color:var(--amber-deep);text-decoration:underline">Guest Info</a>.</p>
+    </div>
+    <div class="rule-grid">
+      <div class="rule"><span class="n">01</span><p><b>Quiet hours 10 PM–7 AM.</b> Keep it neighborly the rest of the day, too.</p></div>
+      <div class="rule"><span class="n">02</span><p><b>Trash goes in the dumpster.</b> Bag it first; no cans left outside at sites.</p></div>
+      <div class="rule"><span class="n">03</span><p><b>Dogs on a leash</b> (6 ft, in hand) and always cleaned up after.</p></div>
+      <div class="rule"><span class="n">04</span><p><b>Mind the speed limit</b> and don't cut across other sites.</p></div>
+      <div class="rule"><span class="n">05</span><p><b>Campfires in fire rings only,</b> approved by management. No grills on picnic tables.</p></div>
+      <div class="rule"><span class="n">06</span><p><b>Park on your slab,</b> not the grass, and keep cords clear of the mowers.</p></div>
+      <div class="rule"><span class="n">07</span><p><b>Two adults + two kids per site.</b> Extra guests carry a small nightly fee.</p></div>
+      <div class="rule"><span class="n">08</span><p><b>Keep your site tidy.</b> Picnic tables stay on the slab provided.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact pad" id="contact">
+  <div class="contour" aria-hidden="true"></div>
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <p class="eyebrow">Get in touch</p>
+      <h2>Reserve or ask us anything.</h2>
+      <p>Call during office hours, or send a note and we'll get right back to you.</p>
+    </div>
+    <div class="ct-grid">
+      <div class="ct-info">
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>
+          <div><a href="tel:8653898543">865 389-8543</a><small>Main office line</small></div>
+        </div>
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <div><a href="mailto:mygirlbell@aol.com">mygirlbell@aol.com</a><small>Email to book a reservation</small></div>
+        </div>
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div><a href="#top">East Tennessee</a><small>After-hours host on site (Hans, #57)</small></div>
+        </div>
+        <div class="hours">
+          <div><span class="day">MON</span><span>9:00 AM – 5:00 PM</span></div>
+          <div><span class="day">TUE</span><span>9:00 AM – 5:00 PM</span></div>
+          <div><span class="day">WED</span><span>9:00 AM – 5:00 PM</span></div>
+          <div><span class="day">THU</span><span>9:00 AM – 5:00 PM</span></div>
+          <div><span class="day">FRI</span><span>9:00 AM – 5:00 PM</span></div>
+          <div><span class="day">SAT</span><span class="closed">Closed</span></div>
+          <div><span class="day">SUN</span><span class="closed">Closed</span></div>
+        </div>
+      </div>
+      <div class="ct-form">
+        <div class="field"><label for="cname">Name</label><input type="text" id="cname" placeholder="Your name"></div>
+        <div class="field"><label for="cemail">Email</label><input type="email" id="cemail" placeholder="you@email.com"></div>
+        <div class="field"><label for="cmsg">Message</label><textarea id="cmsg" rows="5" placeholder="Dates you're looking at, rig size, questions..."></textarea></div>
+        <button class="btn btn-amber" onclick="submitContact()">Send message</button>
+        <div class="ct-confirm" id="ctconfirm"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUEST INFO -->
+<section class="guest pad" id="guest">
+  <div class="contour" aria-hidden="true"></div>
+  <div class="wrap reveal">
+    <div class="sec-head">
+      <p class="eyebrow">Current &amp; arriving guests</p>
+      <h2>Guest information.</h2>
+      <p>Everything you need while you're staying with us — full park policies, site standards, and seasonal notices.</p>
+    </div>
+
+    <div class="gi-tabs" role="tablist">
+      <button class="gi-tab active" role="tab" aria-selected="true" onclick="giTab(event,'gi-rules')">Park Rules &amp; Policies</button>
+      <button class="gi-tab" role="tab" aria-selected="false" onclick="giTab(event,'gi-standards')">Site Standards &amp; Seasonal</button>
+    </div>
+
+    <!-- PANEL: RULES -->
+    <div class="gi-panel active" id="gi-rules">
+      <p class="gi-intro">Lazy Acres is a privately owned, month-to-month park (daily and weekly stays welcome). Only approved RVs are allowed, and we reserve the right to refuse service to anyone who won't comply with park policies. All reservations are non-refundable and non-transferable.</p>
+      <div class="gi-cols">
+        <div class="gi-group">
+          <h3>Your stay &amp; site</h3>
+          <ul class="gi-list">
+            <li><b>Quiet hours 10 PM–7 AM.</b> Be considerate at all other hours, too.</li>
+            <li><b>Check-out is 11:00 AM</b> unless approved by management.</li>
+            <li><b>Limit 4 guests per site</b> (2 adults + 2 children). Extra adult $5/night, extra child $3/night for daily and weekly — call the office about month-to-month.</li>
+            <li><b>Keep your site tidy.</b> Picnic tables stay on the slab provided — please don't move them.</li>
+            <li><b>Free Wi-Fi</b> ("Lazy Acres WiFi") is a courtesy, not part of your rate, and may not reach every site. The password is given at check-in.</li>
+          </ul>
+        </div>
+        <div class="gi-group">
+          <h3>Trash &amp; fires</h3>
+          <ul class="gi-list">
+            <li><b>Bag all trash</b> and place it inside the dumpster. No trash cans left outside at sites.</li>
+            <li><b>No construction material,</b> wood, appliances, or furniture in the dumpsters — there are free dumpsters in town for those (ask the office).</li>
+            <li><b>Campfires in approved fire rings only.</b> Never place grills on picnic tables.</li>
+          </ul>
+        </div>
+        <div class="gi-group">
+          <h3>Pets</h3>
+          <ul class="gi-list">
+            <li><b>Leashed at all times</b> (6 ft max, in hand). Sitting outside, a pet may be tied to your RV or a stake. Only foldable portable fences — no dog houses.</li>
+            <li><b>Clean up after your pet</b> immediately and dispose of waste in a receptacle.</li>
+            <li><b>Proof of vaccination required</b> for all pets.</li>
+            <li><b>No aggressive dogs</b> of any breed. Rottweilers, Pit Bulls, Chows, and Dobermans are restricted.</li>
+            <li><b>Service dogs</b> must be registered at the office with documentation and approved by management.</li>
+            <li><b>No pets</b> in the bathhouse or laundromat; don't wash pet bedding in the washers.</li>
+          </ul>
+        </div>
+        <div class="gi-group">
+          <h3>Driving &amp; parking</h3>
+          <ul class="gi-list">
+            <li><b>Observe the posted speed limit</b> and don't cut across other sites.</li>
+            <li><b>No through traffic</b> — please don't use the park as a cut-through.</li>
+            <li><b>Park on your slab,</b> not the grass, and keep cords clear of the mowers.</li>
+            <li><b>Motorcycles</b> for transportation only (factory parts). Golf carts welcome; no four-wheeling.</li>
+            <li><b>Limit 2 vehicles per site</b> — a boat, golf cart, or recreational vehicle by office permission.</li>
+          </ul>
+        </div>
+        <div class="gi-group">
+          <h3>Bathhouse &amp; laundry</h3>
+          <ul class="gi-list">
+            <li><b>No smoking</b> in the bathhouse, and don't leave clothes unattended.</li>
+            <li><b>Restrooms are gender-specific</b> — violators will be asked to leave immediately.</li>
+            <li><b>Trash goes in the dumpsters,</b> never in the laundry or bathhouse.</li>
+            <li><b>H.E. washers and dryers</b> — please use H.E. detergent.</li>
+          </ul>
+        </div>
+        <div class="gi-group">
+          <h3>Safety &amp; liability</h3>
+          <ul class="gi-list">
+            <li><b>Children under 18</b> must be supervised by an adult; parents are responsible for any damage or injury caused by their children.</li>
+            <li><b>No firearms, illegal drugs, or violence</b> tolerated. Bring any complaints to the office right away.</li>
+            <li><b>Standing water</b> is not for swimming, wading, or fishing. No lifeguard on duty — do not use.</li>
+            <li><b>RV washing:</b> no charge to wash your own RV; professional washing must be approved by the office.</li>
+            <li><b>Not responsible</b> for damage or loss to you or your property while in the park.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL: STANDARDS -->
+    <div class="gi-panel" id="gi-standards">
+      <div class="gi-notice">
+        <span class="tag">Winter — mandatory</span>
+        <h3>Heated water hoses required</h3>
+        <p>Every site must use a heated water hose through the freezing season. Any RV without one will have its water turned off, and water is restored only with the office's permission.</p>
+        <p>If your water is turned off and you reconnect it without permission, you'll be asked to vacate the park. Frozen lines have cost the park thousands of dollars — and they're completely preventable.</p>
+        <p class="sig">— Albert Bell, Owner &middot; via Vina "Carol" George, Manager</p>
+      </div>
+      <p class="gi-intro">Keeping every site clean and orderly protects the whole park and keeps mowing and maintenance easy. These standards apply year-round (rules include, but aren't limited to, the following):</p>
+      <div class="gi-cols">
+        <div class="gi-group">
+          <h3>Around your RV</h3>
+          <ul class="gi-list">
+            <li><b>No trash</b> in the fire pit or around/under your RV. Don't leave trash bags out; keep clutter cleared.</li>
+            <li><b>No buckets, crates, random wood, or debris.</b> Neatly stacked firewood by your fire pit is fine. No ladders left on the ground.</li>
+            <li><b>Limit storage bins</b> under the RV — nothing broken or unsightly. No outside refrigerators; store toolboxes in your RV storage area.</li>
+            <li><b>No inside furniture</b> used outdoors. Old boxes and packages must be removed, not stacked against the RV.</li>
+            <li><b>Approved tents</b> are for lawn furniture and barbeques, not storage.</li>
+          </ul>
+        </div>
+        <div class="gi-group">
+          <h3>Equipment &amp; hookups</h3>
+          <ul class="gi-list">
+            <li><b>Factory RV skirting only</b> — no boxes, plastic, tarps, or hay.</li>
+            <li><b>Replace rusted propane bottles.</b> Limit two 100 lb tanks or three 30 lb tanks per site.</li>
+            <li><b>TV cables off the ground;</b> sewer lines elevated on a proper sewer-hose stand.</li>
+            <li><b>Remove unused blocks</b> and clean under your steps. Check with the office before building steps.</li>
+            <li><b>No car cleaners, brake fluid, oil, rags, or jugs</b> left out — store them in your RV storage area.</li>
+          </ul>
+        </div>
+        <div class="gi-group">
+          <h3>Décor &amp; flags</h3>
+          <ul class="gi-list">
+            <li><b>Take down seasonal decorations</b> once the holiday's over. Yard décor is welcome, but replace anything broken, rusted, or missing parts.</li>
+            <li><b>American/military flags</b> limited to 3'×5' on proper pole holders mounted on your RV (not in the ground). University flags limited to 28"×40".</li>
+            <li><b>You're responsible</b> for weeds and grass around your décor and dog fences.</li>
+          </ul>
+        </div>
+        <div class="gi-group">
+          <h3>Vehicles &amp; mowing</h3>
+          <ul class="gi-list">
+            <li><b>Limit 2 vehicles per site;</b> a boat, golf cart, or recreational vehicle by office permission. One utility trailer per site, approved by management. Don't use a neighbor's space.</li>
+            <li><b>Move outdoor rugs while mowing</b> — otherwise that area becomes your responsibility.</li>
+            <li><b>Slow down, follow the traffic pattern,</b> and stay off the grass.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <a class="brand" href="#top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E0883A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 21h18L12 2Z"/><path d="m8 21 4-7 4 7"/></svg>
+        <div><b>Lazy Acres</b><span>RV Park</span></div>
+      </a>
+      <div class="foot-links">
+        <a href="#park">The Park</a><a href="#rates">Rates</a><a href="#book">Book</a><a href="#monthly">Monthly Stay</a><a href="#rules">Rules</a><a href="#guest">Guest Info</a><a href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Lazy Acres RV Park. All rights reserved.</span>
+      <span class="mono">Concept redesign &middot; built for exploration</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const EXTRA_ADULT=5;
+  function recalc(){
+    const a=document.getElementById('arrive').value;
+    const d=document.getElementById('depart').value;
+    const g=parseInt(document.getElementById('guests').value,10);
+    const nightly=parseInt(document.getElementById('site').value,10);
+    const sN=document.getElementById('snights'),sR=document.getElementById('srate'),
+          sG=document.getElementById('sguests'),sT=document.getElementById('stotal');
+    sR.textContent='$'+nightly;
+    const extra=Math.max(0,g-2)*EXTRA_ADULT;
+    sG.textContent='$'+extra+(extra?'/night':'');
+    if(a&&d){
+      const n=Math.round((new Date(d)-new Date(a))/86400000);
+      if(n>0){
+        sN.textContent=n;
+        const total=n*(nightly+extra);
+        sT.textContent='$'+total.toLocaleString();
+        return;
+      }
+    }
+    sN.textContent='—';sT.textContent='—';
+  }
+  function submitBooking(){
+    const err=document.getElementById('bookerr');
+    const a=document.getElementById('arrive').value,d=document.getElementById('depart').value;
+    const name=document.getElementById('bname').value.trim();
+    const email=document.getElementById('bemail').value.trim();
+    let msg='';
+    if(!a||!d) msg='Please choose your arrival and departure dates.';
+    else if((new Date(d)-new Date(a))<=0) msg='Departure needs to be after arrival.';
+    else if(!name) msg='Please add your name so we know who to expect.';
+    else if(!/.+@.+\..+/.test(email)) msg='Please add a valid email so we can confirm.';
+    if(msg){err.textContent=msg;err.classList.add('show');return;}
+    err.classList.remove('show');
+    const ref='LA-'+Math.random().toString(36).slice(2,7).toUpperCase();
+    const n=Math.round((new Date(d)-new Date(a))/86400000);
+    const c=document.getElementById('bookconfirm');
+    c.innerHTML='<b>Request received — '+ref+'</b><br>Thanks, '+name+'. We\'ve noted '+n+' night'+(n>1?'s':'')+
+      ' arriving '+a+'. In a live site this would email the office and they\'d confirm your site and total. '+
+      'For now, call <b>865 389-8543</b> or email <b>mygirlbell@aol.com</b> to lock it in.';
+    c.classList.add('show');
+    c.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function submitContact(){
+    const name=document.getElementById('cname').value.trim();
+    const email=document.getElementById('cemail').value.trim();
+    const msg=document.getElementById('cmsg').value.trim();
+    const c=document.getElementById('ctconfirm');
+    if(!name||!/.+@.+\..+/.test(email)||!msg){
+      c.style.color='#b4543a';c.textContent='Please add your name, a valid email, and a short message.';
+      c.classList.add('show');return;
+    }
+    c.style.color='';c.textContent='Thanks, '+name+'! Your message would be on its way to the office. They\'ll reply to '+email+' shortly.';
+    c.classList.add('show');
+    document.getElementById('cname').value='';document.getElementById('cemail').value='';document.getElementById('cmsg').value='';
+  }
+  // guest-info tabs
+  function giTab(ev,id){
+    document.querySelectorAll('.gi-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});
+    document.querySelectorAll('.gi-panel').forEach(p=>p.classList.remove('active'));
+    ev.currentTarget.classList.add('active');ev.currentTarget.setAttribute('aria-selected','true');
+    document.getElementById(id).classList.add('active');
+  }
+  function submitMonthly(ev){
+    ev.preventDefault();
+    const err=document.getElementById('rg-err');
+    const name=document.getElementById('rg-name').value.trim();
+    const phone=document.getElementById('rg-phone').value.trim();
+    const email=document.getElementById('rg-email').value.trim();
+    const arrive=document.getElementById('rg-arrive').value;
+    let msg='';
+    if(!name) msg='Please add your name.';
+    else if(!phone) msg='Please add a phone number so we can reach you.';
+    else if(!/.+@.+\..+/.test(email)) msg='Please add a valid email.';
+    else if(!arrive) msg='Please choose your desired move-in date.';
+    if(msg){err.textContent=msg;err.classList.add('show');return;}
+    err.classList.remove('show');
+    const ref='LA-'+Math.random().toString(36).slice(2,7).toUpperCase();
+    const c=document.getElementById('rg-confirm');
+    c.innerHTML='<b>Request received — '+ref+'</b><br>Thanks, '+name+'. In a live site this would reach the office and they\'d follow up about monthly availability and the best site for your rig. '+
+      'To move things along, call <b>865 389-8543</b> — the monthly rate and deposit are arranged directly and securely by the office, never on this page.';
+    c.classList.add('show');
+    c.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  // scroll reveal
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
