@@ -288,7 +288,8 @@
   .gi-form textarea:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:transparent}
   .gi-form .btn-amber{margin-top:24px;justify-content:center}
   .gi-form .reg-note{font-size:.8rem;color:rgba(237,230,214,.6);margin-top:14px}
-  .h-captcha{margin:14px 0}
+  .h-captcha{margin:14px 0;max-width:100%;overflow:hidden}
+  .h-captcha iframe{max-width:100%}
   .gi-confirm{display:none;background:rgba(62,107,74,.16);border:1px solid var(--fern);border-radius:14px;padding:20px;margin-top:18px;font-size:.94rem;color:#bfe0c4}
   .gi-confirm.show{display:block}
   .gi-confirm b{color:#fff}
@@ -571,7 +572,7 @@
         <div class="sumrow"><span>Site (est. nightly)</span><span class="mono" id="srate">$55</span></div>
         <div class="sumrow"><span>Extra guests</span><span class="mono" id="sguests">$0</span></div>
         <div class="sumrow total"><span>Estimate</span><span class="mono" id="stotal">—</span></div>
-        <div class="h-captcha" data-captcha="true" data-theme="dark"></div>
+        <div class="h-captcha" data-captcha="true" data-theme="dark" data-size="compact"></div>
         <button class="btn btn-amber" onclick="submitBooking()">Request reservation</button>
         <p class="book-note">Estimate only — no payment is taken here.</p>
       </div>
@@ -657,7 +658,7 @@
         <div class="field full"><label for="rg-notes">Anything else we should know?</label><textarea id="rg-notes" rows="3" placeholder="Accessibility needs, service animal, preferred area of the park, questions..."></textarea></div>
       </div>
 
-      <div class="h-captcha" data-captcha="true" data-theme="dark"></div>
+      <div class="h-captcha" data-captcha="true" data-theme="dark" data-size="compact"></div>
       <p class="gi-err" id="rg-err"></p>
       <button class="btn btn-amber" type="submit">Submit monthly stay request</button>
       <p class="reg-note">Submitting sends your details straight to the park office. No payment is collected here — the office arranges your monthly rate and deposit with you directly and securely.</p>
@@ -724,7 +725,7 @@
         <div class="field"><label for="cname">Name</label><input type="text" id="cname" placeholder="Your name"></div>
         <div class="field"><label for="cemail">Email</label><input type="email" id="cemail" placeholder="you@email.com"></div>
         <div class="field"><label for="cmsg">Message</label><textarea id="cmsg" rows="5" placeholder="Dates you're looking at, rig size, questions..."></textarea></div>
-        <div class="h-captcha" data-captcha="true"></div>
+        <div class="h-captcha" data-captcha="true" data-size="compact"></div>
         <button class="btn btn-amber" onclick="submitContact()">Send message</button>
         <div class="ct-confirm" id="ctconfirm"></div>
       </div>
