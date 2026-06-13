@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lazy Acres RV Park — East Tennessee</title>
+<title>Lazy Acres RV Park — Lenoir City, TN · Near Tellico Lake</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -66,10 +66,15 @@
   .menubtn{display:none;background:none;border:0;color:var(--paper);cursor:pointer}
 
   /* ---------- HERO ---------- */
-  .hero{background:var(--pine);color:var(--paper);overflow:hidden;position:relative}
+  .hero{
+    --sky:var(--pine);
+    --orb:radial-gradient(circle at 50% 50%,#F2B66A 0%,#E0883A 55%,rgba(224,136,58,0) 72%);
+    --orb-top:120px;--orb-right:9%;--orb-size:200px;
+    --hero-accent:var(--amber);--star-op:0;
+    background:var(--sky);color:var(--paper);overflow:hidden;position:relative;transition:background 1.4s ease}
   .hero-inner{max-width:var(--maxw);margin:0 auto;padding:96px 24px 0;position:relative;z-index:3}
   .hero h1{font-size:clamp(2.8rem,7vw,5.4rem);font-weight:800;max-width:14ch;margin:18px 0 0}
-  .hero h1 em{font-style:normal;color:var(--amber)}
+  .hero h1 em{font-style:normal;color:var(--hero-accent)}
   .hero p.lede{font-size:clamp(1.05rem,2vw,1.3rem);max-width:46ch;margin:22px 0 0;color:rgba(237,230,214,.82)}
   .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin:34px 0 0}
   .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:999px;font-weight:600;text-decoration:none;font-size:.98rem;cursor:pointer;border:0;transition:transform .15s,background .2s,box-shadow .2s}
@@ -82,12 +87,39 @@
   .coords .k{color:var(--sage);text-transform:uppercase;display:block;font-size:.62rem;margin-bottom:3px}
   .coords .v{color:var(--paper);font-weight:500}
 
-  /* sun + ridges */
-  .sun{position:absolute;right:9%;top:120px;width:200px;height:200px;border-radius:50%;
-    background:radial-gradient(circle at 50% 50%,#F2B66A 0%,#E0883A 55%,rgba(224,136,58,0) 72%);
-    filter:blur(2px);z-index:1;animation:glow 7s ease-in-out infinite}
+  /* sun/moon + ridges + sky */
+  .sun{position:absolute;right:var(--orb-right);top:var(--orb-top);width:var(--orb-size);height:var(--orb-size);border-radius:50%;
+    background:var(--orb);filter:blur(2px);z-index:1;animation:glow 7s ease-in-out infinite;
+    transition:top 1.4s ease,right 1.4s ease,width 1.4s ease,height 1.4s ease,background 1.4s ease}
   @keyframes glow{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+  .stars{position:absolute;inset:0;height:62%;z-index:0;opacity:var(--star-op);transition:opacity 1.6s ease;pointer-events:none;
+    background-image:
+      radial-gradient(1.6px 1.6px at 12% 22%,#fff,transparent),
+      radial-gradient(1.4px 1.4px at 24% 48%,#eef,transparent),
+      radial-gradient(1.8px 1.8px at 38% 14%,#fff,transparent),
+      radial-gradient(1.3px 1.3px at 52% 36%,#dde,transparent),
+      radial-gradient(1.6px 1.6px at 63% 20%,#fff,transparent),
+      radial-gradient(1.4px 1.4px at 74% 44%,#eef,transparent),
+      radial-gradient(1.7px 1.7px at 86% 16%,#fff,transparent),
+      radial-gradient(1.3px 1.3px at 92% 38%,#dde,transparent),
+      radial-gradient(1.5px 1.5px at 18% 64%,#fff,transparent),
+      radial-gradient(1.4px 1.4px at 45% 60%,#eef,transparent),
+      radial-gradient(1.5px 1.5px at 69% 62%,#fff,transparent)}
   .ridges{display:block;width:100%;height:auto;margin-top:-40px;position:relative;z-index:2}
+
+  /* time-of-day phases */
+  .hero[data-tod="morning"]{
+    --sky:linear-gradient(180deg,#2a4a5a 0%,#33463f 55%,#1C3B29 100%);
+    --orb:radial-gradient(circle at 50% 50%,#FFE3B6 0%,#F2A65A 55%,rgba(242,166,90,0) 73%);
+    --orb-top:312px;--orb-right:15%;--orb-size:205px;--hero-accent:#F2A65A}
+  .hero[data-tod="evening"]{
+    --sky:linear-gradient(180deg,#3a2742 0%,#5c2f38 42%,#2b3526 100%);
+    --orb:radial-gradient(circle at 50% 50%,#FFC588 0%,#E0662A 52%,rgba(224,102,42,0) 72%);
+    --orb-top:316px;--orb-right:12%;--orb-size:228px;--hero-accent:#F0824A}
+  .hero[data-tod="night"]{
+    --sky:linear-gradient(180deg,#0d1726 0%,#11212b 55%,#0f1f17 100%);
+    --orb:radial-gradient(circle at 42% 40%,#f4f7fb 0%,#cdd8e4 48%,rgba(205,216,228,0) 70%);
+    --orb-top:88px;--orb-right:12%;--orb-size:150px;--hero-accent:#a9bdd2;--star-op:1}
 
   /* ---------- SECTION SHELL ---------- */
   .pad{padding:88px 0}
@@ -311,11 +343,12 @@
 
 <!-- HERO -->
 <section class="hero" id="top">
+  <div class="stars" aria-hidden="true"></div>
   <div class="sun" aria-hidden="true"></div>
   <div class="hero-inner">
-    <p class="eyebrow">East Tennessee &middot; Wooded RV sites</p>
+    <p class="eyebrow">Lenoir City, Tennessee &middot; Near Tellico Lake</p>
     <h1>Park the rig. <em>Stay a while.</em></h1>
-    <p class="lede">A quiet, family-run RV park tucked in the foothills — full hookups, shade, and neighbors who wave. Nightly, weekly, or settle in month to month.</p>
+    <p class="lede">A quiet, family-run RV park in the East Tennessee foothills, minutes from Tellico Lake — full hookups, open grassy sites, and neighbors who wave. Nightly, weekly, or settle in month to month.</p>
     <div class="hero-cta">
       <a class="btn btn-amber" href="#book">Check availability</a>
       <a class="btn btn-ghost" href="tel:8653898543">Call 865 389-8543</a>
@@ -341,7 +374,7 @@
     <div class="sec-head">
       <p class="eyebrow">The Park</p>
       <h2>Small, tidy, and easy to call home.</h2>
-      <p>We're a privately owned park built around long, level sites and quiet evenings. Pull through for a night or keep your spot for the season — either way you get the same clean grounds and friendly host.</p>
+      <p>We're a privately owned park in Lenoir City — minutes from Tellico Lake — built around long, level sites and quiet evenings. Pull through for a night or keep your spot for the season — either way you get the same clean grounds and friendly host.</p>
     </div>
     <div class="feat">
       <div class="fcard">
@@ -358,7 +391,7 @@
       </div>
       <div class="fcard">
         <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 13a9 9 0 0 1 14 0"/><path d="M8.5 16.5a4.5 4.5 0 0 1 7 0"/><circle cx="12" cy="20" r="1"/></svg>
-        <h3>Free Wi-Fi</h3><p>Complimentary park-wide Wi-Fi to keep you connected under the trees.</p>
+        <h3>Free Wi-Fi</h3><p>Complimentary park-wide Wi-Fi to keep you connected across the grounds.</p>
       </div>
     </div>
   </div>
@@ -370,7 +403,7 @@
     <div class="sec-head">
       <p class="eyebrow">Around the grounds</p>
       <h2>A look at the park.</h2>
-      <p>Shaded sites, open sky, and the kind of quiet you drove all this way for.</p>
+      <p>Open sites, big sky, and the kind of quiet you drove all this way for.</p>
     </div>
     <div class="grid-photos">
       <div class="ph wide"><img src="photos/sunrise-foothills.jpg" alt="Sunrise over the East Tennessee foothills at Lazy Acres" loading="lazy"><span>Sunrise over the foothills</span></div>
@@ -611,7 +644,7 @@
         </div>
         <div class="row">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-          <div><a href="#top">East Tennessee</a><small>After-hours host on site (Hans, #57)</small></div>
+          <div><a href="https://www.google.com/maps/search/?api=1&amp;query=7502+Jackson+Bend+Rd+Lenoir+City+TN+37772" target="_blank" rel="noopener">7502 Jackson Bend Rd, Lenoir City, TN</a><small>Near Tellico Lake &middot; after-hours host on site</small></div>
         </div>
         <div class="hours">
           <div><span class="day">MON</span><span>9:00 AM – 5:00 PM</span></div>
@@ -780,12 +813,24 @@
     </div>
     <div class="foot-bot">
       <span>© 2026 Lazy Acres RV Park. All rights reserved.</span>
-      <span class="mono">Concept redesign &middot; built for exploration</span>
+      <span class="mono">7502 Jackson Bend Rd, Lenoir City, TN 37772 &middot; 865 389-8543</span>
     </div>
   </div>
 </footer>
 
 <script>
+  // hero time-of-day: morning / day / evening / night by local hour
+  (function(){
+    var hero=document.querySelector('.hero'); if(!hero) return;
+    function setTod(){
+      var h=new Date().getHours();
+      var tod = h<5 ? 'night' : h<9 ? 'morning' : h<17 ? 'day' : h<20 ? 'evening' : 'night';
+      hero.setAttribute('data-tod',tod);
+    }
+    setTod();
+    setInterval(setTod, 5*60*1000); // re-check every 5 min so it shifts if the page stays open
+  })();
+
   const EXTRA_ADULT=5;
   function recalc(){
     const a=document.getElementById('arrive').value;
