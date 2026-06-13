@@ -853,6 +853,18 @@
     }
     sN.textContent='—';sT.textContent='—';
   }
+  // Web3Forms — paste your access key between the quotes to make the forms email the office
+  const W3F_KEY = "27e1ebb1-cf4e-43df-b968-027f5db91a35";
+  function w3fReady(){ return W3F_KEY && !/PASTE_/.test(W3F_KEY); }
+  function v(id){ var el=document.getElementById(id); if(!el) return ''; return el.tagName==='SELECT' ? el.options[el.selectedIndex].text : el.value.trim(); }
+  function sendToWeb3Forms(subject, fields){
+    if(!w3fReady()) return Promise.resolve(false);
+    return fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(Object.assign({access_key:W3F_KEY, subject:subject, from_name:'Lazy Acres Website', botcheck:''}, fields))
+    }).then(function(){return true;}).catch(function(){return false;});
+  }
   function submitBooking(){
     const err=document.getElementById('bookerr');
     const a=document.getElementById('arrive').value,d=document.getElementById('depart').value;
@@ -867,10 +879,17 @@
     err.classList.remove('show');
     const ref='LA-'+Math.random().toString(36).slice(2,7).toUpperCase();
     const n=Math.round((new Date(d)-new Date(a))/86400000);
+    sendToWeb3Forms('New booking inquiry — Lazy Acres ('+ref+')', {
+      Form:'Check availability', Reference:ref, Name:name, Email:email, Phone:v('bphone'),
+      'Site type':v('site'), 'Rig type':v('rig'), Guests:v('guests'),
+      Arrival:a, Departure:d, Nights:n, 'Estimated total':v('stotal')||document.getElementById('stotal').textContent
+    });
     const c=document.getElementById('bookconfirm');
     c.innerHTML='<b>Request received — '+ref+'</b><br>Thanks, '+name+'. We\'ve noted '+n+' night'+(n>1?'s':'')+
-      ' arriving '+a+'. In a live site this would email the office and they\'d confirm your site and total. '+
-      'For now, call <b>865 389-8543</b> or email <b>mygirlbell@aol.com</b> to lock it in.';
+      ' arriving '+a+'. '+(w3fReady()
+        ? 'Your request is on its way to the office — they\'ll follow up to confirm your site and total.'
+        : 'In a live site this would email the office.')+
+      ' You can also call <b>865 389-8543</b> or email <b>mygirlbell@aol.com</b>.';
     c.classList.add('show');
     c.scrollIntoView({behavior:'smooth',block:'center'});
   }
@@ -883,7 +902,11 @@
       c.style.color='#b4543a';c.textContent='Please add your name, a valid email, and a short message.';
       c.classList.add('show');return;
     }
-    c.style.color='';c.textContent='Thanks, '+name+'! Your message would be on its way to the office. They\'ll reply to '+email+' shortly.';
+    sendToWeb3Forms('New website message — Lazy Acres', {Form:'Contact', Name:name, Email:email, Message:msg});
+    c.style.color='';
+    c.textContent= w3fReady()
+      ? 'Thanks, '+name+'! Your message is on its way to the office — they\'ll reply to '+email+' shortly.'
+      : 'Thanks, '+name+'! Your message would be on its way to the office. They\'ll reply to '+email+' shortly.';
     c.classList.add('show');
     document.getElementById('cname').value='';document.getElementById('cemail').value='';document.getElementById('cmsg').value='';
   }
@@ -909,9 +932,22 @@
     if(msg){err.textContent=msg;err.classList.add('show');return;}
     err.classList.remove('show');
     const ref='LA-'+Math.random().toString(36).slice(2,7).toUpperCase();
+    sendToWeb3Forms('New monthly stay request — Lazy Acres ('+ref+')', {
+      Form:'Monthly stay request', Reference:ref,
+      Name:name, Phone:phone, 'Alt phone':v('rg-phone2'), Email:email, 'Home ZIP':v('rg-zip'),
+      'Emergency contact':v('rg-ec'), 'Emergency phone':v('rg-ecphone'),
+      'RV type':v('rg-rvtype'), 'Site preference':v('rg-site'), Length:v('rg-len'), Year:v('rg-year'),
+      'Make/model':v('rg-model'), 'Plate & state':v('rg-tag'),
+      Adults:v('rg-adults'), Children:v('rg-kids'), Pets:v('rg-pets'), 'Pet breeds':v('rg-breed'),
+      'Vehicle 1':[v('rg-v1make'),v('rg-v1model'),v('rg-v1color'),v('rg-v1plate')].filter(Boolean).join(' / '),
+      'Vehicle 2':[v('rg-v2make'),v('rg-v2model'),v('rg-v2color'),v('rg-v2plate')].filter(Boolean).join(' / '),
+      'Desired move-in':arrive, 'Length of stay':v('rg-length'), Notes:v('rg-notes')
+    });
     const c=document.getElementById('rg-confirm');
-    c.innerHTML='<b>Request received — '+ref+'</b><br>Thanks, '+name+'. In a live site this would reach the office and they\'d follow up about monthly availability and the best site for your rig. '+
-      'To move things along, call <b>865 389-8543</b> — the monthly rate and deposit are arranged directly and securely by the office, never on this page.';
+    c.innerHTML='<b>Request received — '+ref+'</b><br>Thanks, '+name+'. '+(w3fReady()
+        ? 'Your request is on its way to the office — they\'ll follow up about monthly availability and the best site for your rig.'
+        : 'In a live site this would reach the office and they\'d follow up about monthly availability and the best site for your rig.')+
+      ' To move things along, call <b>865 389-8543</b> — the monthly rate and deposit are arranged directly and securely by the office, never on this page.';
     c.classList.add('show');
     c.scrollIntoView({behavior:'smooth',block:'center'});
   }
