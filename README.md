@@ -22,4 +22,4 @@ monthly stay request, full guest info (park rules, site standards, seasonal noti
 5. The site goes live at `https://<your-username>.github.io/lazy-acres-rv-park/` within a minute or two.
 
 ## Contact
-865 389-8543 · mygirlbell@aol.com · 7502 Jackson Bend Rd, Lenoir City, TN 37772
+865 389-8543 · LazyAcresRVParkTN@gmail.com · 7502 Jackson Bend Rd, Lenoir City, TN 37772
