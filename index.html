@@ -187,14 +187,14 @@
   .book .sec-head h2{color:var(--paper)}
   .book .sec-head p{color:rgba(237,230,214,.78)}
   .book .eyebrow{color:var(--amber)}
-  .book-card{background:rgba(237,230,214,.06);border:1px solid rgba(237,230,214,.16);border-radius:20px;padding:30px;margin-top:40px;display:grid;grid-template-columns:1.3fr .9fr;gap:30px}
-  .fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .field{display:flex;flex-direction:column;gap:6px}
+  .book-card{background:rgba(237,230,214,.06);border:1px solid rgba(237,230,214,.16);border-radius:20px;padding:30px;margin-top:40px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.9fr);gap:30px}
+  .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .field{display:flex;flex-direction:column;gap:6px;min-width:0}
   .field.full{grid-column:1/-1}
   .field label{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);font-family:'JetBrains Mono'}
   .field input,.field select{
     background:rgba(18,38,25,.6);border:1px solid rgba(237,230,214,.2);border-radius:10px;
-    padding:12px 13px;color:var(--paper);font-family:'Inter';font-size:.95rem;width:100%}
+    padding:12px 13px;color:var(--paper);font-family:'Inter';font-size:.95rem;width:100%;min-width:0;max-width:100%}
   .field input:focus,.field select:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:transparent}
   .field input::-webkit-calendar-picker-indicator{filter:invert(.8)}
   .field select{
@@ -324,7 +324,7 @@
   }
   @media(max-width:520px){
     .feat{grid-template-columns:1fr}
-    .fields{grid-template-columns:1fr}
+    .fields{grid-template-columns:minmax(0,1fr)}
     .coords{gap:16px}
   }
   @media(prefers-reduced-motion:reduce){
@@ -784,7 +784,7 @@
           <h3>Driving &amp; parking</h3>
           <ul class="gi-list">
             <li><b>Observe the posted speed limit</b> and don't cut across other sites.</li>
-            <li><b>No through traffic</b> — please don't use the park as a cut-through.</li>
+            <li><b>Use the main road</b> in and out — please don't cut through the neighboring mobile home park.</li>
             <li><b>Park on your slab,</b> not the grass, and keep cords clear of the mowers.</li>
             <li><b>Motorcycles</b> for transportation only (factory parts). Golf carts welcome; no four-wheeling.</li>
             <li><b>Limit 2 vehicles per site</b> — a boat, golf cart, or recreational vehicle by office permission.</li>
