@@ -273,6 +273,7 @@
   .gi-form textarea:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:transparent}
   .gi-form .btn-amber{margin-top:24px;justify-content:center}
   .gi-form .reg-note{font-size:.8rem;color:rgba(237,230,214,.6);margin-top:14px}
+  .h-captcha{margin:14px 0}
   .gi-confirm{display:none;background:rgba(62,107,74,.16);border:1px solid var(--fern);border-radius:14px;padding:20px;margin-top:18px;font-size:.94rem;color:#bfe0c4}
   .gi-confirm.show{display:block}
   .gi-confirm b{color:#fff}
@@ -509,6 +510,7 @@
         <div class="sumrow"><span>Site (est. nightly)</span><span class="mono" id="srate">$55</span></div>
         <div class="sumrow"><span>Extra guests</span><span class="mono" id="sguests">$0</span></div>
         <div class="sumrow total"><span>Estimate</span><span class="mono" id="stotal">—</span></div>
+        <div class="h-captcha" data-captcha="true" data-theme="dark"></div>
         <button class="btn btn-amber" onclick="submitBooking()">Request reservation</button>
         <p class="book-note">Estimate only — no payment is taken here.</p>
       </div>
@@ -594,6 +596,7 @@
         <div class="field full"><label for="rg-notes">Anything else we should know?</label><textarea id="rg-notes" rows="3" placeholder="Accessibility needs, service animal, preferred area of the park, questions..."></textarea></div>
       </div>
 
+      <div class="h-captcha" data-captcha="true" data-theme="dark"></div>
       <p class="gi-err" id="rg-err"></p>
       <button class="btn btn-amber" type="submit">Submit monthly stay request</button>
       <p class="reg-note">Submitting sends your details straight to the park office. No payment is collected here — the office arranges your monthly rate and deposit with you directly and securely.</p>
@@ -660,6 +663,7 @@
         <div class="field"><label for="cname">Name</label><input type="text" id="cname" placeholder="Your name"></div>
         <div class="field"><label for="cemail">Email</label><input type="email" id="cemail" placeholder="you@email.com"></div>
         <div class="field"><label for="cmsg">Message</label><textarea id="cmsg" rows="5" placeholder="Dates you're looking at, rig size, questions..."></textarea></div>
+        <div class="h-captcha" data-captcha="true"></div>
         <button class="btn btn-amber" onclick="submitContact()">Send message</button>
         <div class="ct-confirm" id="ctconfirm"></div>
       </div>
@@ -857,6 +861,8 @@
   const W3F_KEY = "27e1ebb1-cf4e-43df-b968-027f5db91a35";
   function w3fReady(){ return W3F_KEY && !/PASTE_/.test(W3F_KEY); }
   function v(id){ var el=document.getElementById(id); if(!el) return ''; return el.tagName==='SELECT' ? el.options[el.selectedIndex].text : el.value.trim(); }
+  function captchaOK(scope){ var box=scope&&scope.querySelector('.h-captcha'); if(!box) return true; if(!box.querySelector('iframe')) return true; var r=scope.querySelector('textarea[name="h-captcha-response"]'); return !!(r&&r.value); }
+  function captchaValue(scope){ var r=scope&&scope.querySelector('textarea[name="h-captcha-response"]'); return r?r.value:''; }
   function sendToWeb3Forms(subject, fields){
     if(!w3fReady()) return Promise.resolve(false);
     return fetch('https://api.web3forms.com/submit',{
@@ -876,13 +882,16 @@
     else if(!name) msg='Please add your name so we know who to expect.';
     else if(!/.+@.+\..+/.test(email)) msg='Please add a valid email so we can confirm.';
     if(msg){err.textContent=msg;err.classList.add('show');return;}
+    const bsec=document.getElementById('book');
+    if(!captchaOK(bsec)){err.textContent='Please complete the captcha to continue.';err.classList.add('show');return;}
     err.classList.remove('show');
     const ref='LA-'+Math.random().toString(36).slice(2,7).toUpperCase();
     const n=Math.round((new Date(d)-new Date(a))/86400000);
     sendToWeb3Forms('New booking inquiry — Lazy Acres ('+ref+')', {
       Form:'Check availability', Reference:ref, Name:name, Email:email, Phone:v('bphone'),
       'Site type':v('site'), 'Rig type':v('rig'), Guests:v('guests'),
-      Arrival:a, Departure:d, Nights:n, 'Estimated total':v('stotal')||document.getElementById('stotal').textContent
+      Arrival:a, Departure:d, Nights:n, 'Estimated total':v('stotal')||document.getElementById('stotal').textContent,
+      'h-captcha-response':captchaValue(bsec)
     });
     const c=document.getElementById('bookconfirm');
     c.innerHTML='<b>Request received — '+ref+'</b><br>Thanks, '+name+'. We\'ve noted '+n+' night'+(n>1?'s':'')+
@@ -902,7 +911,9 @@
       c.style.color='#b4543a';c.textContent='Please add your name, a valid email, and a short message.';
       c.classList.add('show');return;
     }
-    sendToWeb3Forms('New website message — Lazy Acres', {Form:'Contact', Name:name, Email:email, Message:msg});
+    const csec=document.getElementById('contact');
+    if(!captchaOK(csec)){c.style.color='#b4543a';c.textContent='Please complete the captcha to continue.';c.classList.add('show');return;}
+    sendToWeb3Forms('New website message — Lazy Acres', {Form:'Contact', Name:name, Email:email, Message:msg, 'h-captcha-response':captchaValue(csec)});
     c.style.color='';
     c.textContent= w3fReady()
       ? 'Thanks, '+name+'! Your message is on its way to the office — they\'ll reply to '+email+' shortly.'
@@ -930,6 +941,8 @@
     else if(!/.+@.+\..+/.test(email)) msg='Please add a valid email.';
     else if(!arrive) msg='Please choose your desired move-in date.';
     if(msg){err.textContent=msg;err.classList.add('show');return;}
+    const msec=document.getElementById('monthly');
+    if(!captchaOK(msec)){err.textContent='Please complete the captcha to continue.';err.classList.add('show');return;}
     err.classList.remove('show');
     const ref='LA-'+Math.random().toString(36).slice(2,7).toUpperCase();
     sendToWeb3Forms('New monthly stay request — Lazy Acres ('+ref+')', {
@@ -941,7 +954,8 @@
       Adults:v('rg-adults'), Children:v('rg-kids'), Pets:v('rg-pets'), 'Pet breeds':v('rg-breed'),
       'Vehicle 1':[v('rg-v1make'),v('rg-v1model'),v('rg-v1color'),v('rg-v1plate')].filter(Boolean).join(' / '),
       'Vehicle 2':[v('rg-v2make'),v('rg-v2model'),v('rg-v2color'),v('rg-v2plate')].filter(Boolean).join(' / '),
-      'Desired move-in':arrive, 'Length of stay':v('rg-length'), Notes:v('rg-notes')
+      'Desired move-in':arrive, 'Length of stay':v('rg-length'), Notes:v('rg-notes'),
+      'h-captcha-response':captchaValue(msec)
     });
     const c=document.getElementById('rg-confirm');
     c.innerHTML='<b>Request received — '+ref+'</b><br>Thanks, '+name+'. '+(w3fReady()
@@ -955,5 +969,6 @@
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
+<script src="https://web3forms.com/client/script.js" async defer></script>
 </body>
 </html>
